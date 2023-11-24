@@ -10,6 +10,7 @@ export const CharacterQueryType = new GraphQLObjectType({
             args: {
                 page: { type: GraphQLInt, defaultValue: 1 },
                 limit: { type: GraphQLInt, defaultValue: 5 },
+                name: { type: GraphQLString, defaultValue: '' },
             },
             resolve: async (_root, { page, limit }) => {
                 try {
@@ -27,10 +28,11 @@ export const CharacterQueryType = new GraphQLObjectType({
                 page: { type: GraphQLInt, defaultValue: 1 },
                 limit: { type: GraphQLInt, defaultValue: 5 },
                 species: { type: GraphQLString },
+                name: { type: GraphQLString, defaultValue: '' },
             },
-            resolve: async (_root, { page, limit, species }) => {
+            resolve: async (_root, { page, limit, species, name }) => {
                 try {
-                    return await getCharacterBySpecies(species, page, limit); 
+                    return await getCharacterBySpecies(species, page, limit, name ); 
                 } catch (error: any) {
                     console.error('Error fetching characters by species:', error.message);
                     throw new Error('Error fetching characters by species');

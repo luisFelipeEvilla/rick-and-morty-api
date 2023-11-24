@@ -45,7 +45,7 @@ export async function getCharacterById(id: string): Promise<any> {
   }
 }
 
-export async function getCharacterBySpecies(species: string, page: number, limit: number) {
+export async function getCharacterBySpecies(species: string, page: number, limit: number,  name: string) {
   try {
     const response: AxiosResponse<CharactersResponse> = await axios.get(
       API_URL,
@@ -53,11 +53,12 @@ export async function getCharacterBySpecies(species: string, page: number, limit
         params: {
           species: species,
           page: page,
-          limit: limit,
+          limit: limit
         },
       }
     );
-
+    
+    if (name !== '') response.data.results = await response.data.results.filter((character) => character.name.toLowerCase().includes(name.toLowerCase()));
     return response.data;
   } catch (error: any) {
     console.error('Error fetching characters by species:', error.message);
